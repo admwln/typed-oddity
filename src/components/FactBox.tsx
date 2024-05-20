@@ -33,7 +33,12 @@ const Paragraph = styled.p`
   }
 `;
 
-function FactBox({ selectedFact, randomClickCount }) {
+type FactBoxProps = {
+  selectedFact: string;
+  randomClickCount: number;
+};
+
+function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
   const [randomFact, setRandomFact] = useState(null);
   const [dailyFact, setDailyFact] = useState(null);
 
@@ -42,26 +47,29 @@ function FactBox({ selectedFact, randomClickCount }) {
       const response = await fetch(
         "https://uselessfacts.jsph.pl/random.json?language=en"
       );
-      const data = await response.json();
-      console.log(data.text);
+      const data = (await response.json()) as { demo: number };
+      console.log(data);
       setRandomFact(data.text);
     } catch {
       console.log("error");
     }
   }
 
-  async function fetchDailyFact() {
+  type RandomFact = {
+    text: string;
+  };
+
+  const fetchDailyFact = async (): Promise<void> => {
     try {
       const response = await fetch(
         "https://uselessfacts.jsph.pl/today.json?language=en"
       );
       const data = await response.json();
-      console.log(data.text);
       setDailyFact(data.text);
     } catch {
       console.log("error");
     }
-  }
+  };
 
   useEffect(() => {
     if (selectedFact === "random") {

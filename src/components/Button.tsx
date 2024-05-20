@@ -1,7 +1,8 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 
-const ButtonComponent = styled(motion.button)`
+const StyledButton = styled(motion.button)`
   font-size: 16px;
   font-weight: 600;
   padding: 12px 24px;
@@ -27,10 +28,17 @@ const Icon = styled.img`
   height: 20px; /* Adjust height as needed */
 `;
 
-function Button({ text, onClick, className, icon }) {
+type ButtonProps = {
+  text: string;
+  onClick: () => void;
+  className: string;
+  icon: any;
+};
+
+function Button({ text, onClick, className, icon }: ButtonProps) {
   console.log({ text, onClick, className });
   return (
-    <ButtonComponent
+    <StyledButton
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
@@ -39,7 +47,7 @@ function Button({ text, onClick, className, icon }) {
     >
       {text}
       {icon && <Icon src={icon} alt="Icon" />}
-    </ButtonComponent>
+    </StyledButton>
   );
 }
 

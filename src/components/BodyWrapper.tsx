@@ -11,7 +11,11 @@ const Wrapper = styled.div`
   }
 `;
 
-function BodyWrapper({ children }) {
+type BodyWrapperProps = {
+  children: React.ReactNode;
+};
+
+function BodyWrapper({ children }: BodyWrapperProps) {
   return <Wrapper>{children}</Wrapper>;
 }
 
