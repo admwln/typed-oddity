@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import FactBox from "./components/FactBox";
@@ -6,7 +7,7 @@ import Button from "./components/Button";
 import ButtonContainer from "./components/ButtonContainer";
 import BoredBox from "./components/BoredBox";
 import BodyWrapper from "./components/BodyWrapper";
-import GenerateIcon from "/assets/generate.svg";
+import GenerateIcon from "../public/assets/generate.svg";
 
 import "./App.css";
 
