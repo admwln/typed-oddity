@@ -15,7 +15,13 @@ const Buttons = styled(motion.div)`
   }
 `;
 
-const ButtonContainer = ({ children }) => (
+type ButtonContainerProps = {
+  children: React.ReactNode;
+};
+
+const ButtonContainer: React.FC<ButtonContainerProps> = ({
+  children,
+}: ButtonContainerProps) => (
   <Buttons initial="initial" animate="animate">
     {children}
   </Buttons>

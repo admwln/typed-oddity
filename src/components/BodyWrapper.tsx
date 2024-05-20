@@ -15,8 +15,10 @@ type BodyWrapperProps = {
   children: React.ReactNode;
 };
 
-function BodyWrapper({ children }: BodyWrapperProps) {
+const BodyWrapper: React.FC<BodyWrapperProps> = ({
+  children,
+}: BodyWrapperProps) => {
   return <Wrapper>{children}</Wrapper>;
-}
+};
 
 export default BodyWrapper;
