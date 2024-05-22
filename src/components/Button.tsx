@@ -31,8 +31,8 @@ const Icon = styled.img`
 type ButtonProps = {
   text: string;
   onClick: () => void;
-  className: string;
-  icon: any;
+  className?: string;
+  icon?: any;
 };
 
 function Button({ text, onClick, className, icon }: ButtonProps) {

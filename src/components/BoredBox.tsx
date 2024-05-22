@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import Button from "./Button";
 
+type CloseButtonProps = {
+  isRotated: boolean;
+};
+
 const BoredWrapper = styled(motion.div)`
   position: absolute;
   width: 100vw;
@@ -53,7 +57,7 @@ const ButtonWrapper = styled.div`
   gap: 1rem;
 `;
 
-const CloseButton = styled.img`
+const CloseButton = styled.img<CloseButtonProps>`
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -70,7 +74,7 @@ function BoredBox() {
   const [isClosed, setIsClosed] = useState(false);
   const [isRotated, setIsRotated] = useState(false);
 
-  async function fetchActivity(type) {
+  const fetchActivity = async (type: string): Promise<string> => {
     try {
       let url = "https://www.boredapi.com/api/activity";
       if (type) {
@@ -80,29 +84,58 @@ function BoredBox() {
       const response = await fetch(url);
       const data = await response.json();
       setActivity(data.activity);
+      return data.activity;
     } catch {
       console.log("error");
+      return "Failed to fetch activity";
     }
-  }
+  };
 
   useEffect(() => {
     fetchActivity(selectedType);
   }, [selectedType]);
 
+  // const handleCloseClick = () => {
+  //   setIsClosed((prevIsClosed) => !prevIsClosed);
+  //   setIsRotated((prevIsRotated) => !prevIsRotated);
+
+  //   const contentElements =
+  //     document.querySelectorAll<HTMLElement>(".content-element");
+
+  //   contentElements.forEach((element) => {
+  //     if (element !== closeButtonRef.current) {
+  //       element.style.display = isClosed ? "flex" : "none";
+  //       // closeButtonRef.current.style.transform = isRotated;
+
+  //       closeButtonRef.current?.style.transform = isRotated
+  //         ? "rotate(180deg)"
+  //         : "rotate(0deg)";
+  //     }
+  //   });
+  // };
+
   const handleCloseClick = () => {
     setIsClosed((prevIsClosed) => !prevIsClosed);
     setIsRotated((prevIsRotated) => !prevIsRotated);
 
-    const contentElements = document.querySelectorAll(".content-element");
+    const contentElements =
+      document.querySelectorAll<HTMLElement>(".content-element");
+
     contentElements.forEach((element) => {
       if (element !== closeButtonRef.current) {
         element.style.display = isClosed ? "flex" : "none";
-        closeButtonRef.current.style.transform = isRotated;
       }
     });
+
+    // Ensure closeButtonRef.current is not null before accessing its style
+    if (closeButtonRef.current) {
+      closeButtonRef.current.style.transform = isRotated
+        ? "rotate(180deg)"
+        : "rotate(0deg)";
+    }
   };
 
-  const closeButtonRef = React.useRef();
+  const closeButtonRef = React.useRef<HTMLImageElement>(null);
 
   return (
     <BoredWrapper
