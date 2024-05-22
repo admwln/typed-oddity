@@ -95,25 +95,6 @@ function BoredBox() {
     fetchActivity(selectedType);
   }, [selectedType]);
 
-  // const handleCloseClick = () => {
-  //   setIsClosed((prevIsClosed) => !prevIsClosed);
-  //   setIsRotated((prevIsRotated) => !prevIsRotated);
-
-  //   const contentElements =
-  //     document.querySelectorAll<HTMLElement>(".content-element");
-
-  //   contentElements.forEach((element) => {
-  //     if (element !== closeButtonRef.current) {
-  //       element.style.display = isClosed ? "flex" : "none";
-  //       // closeButtonRef.current.style.transform = isRotated;
-
-  //       closeButtonRef.current?.style.transform = isRotated
-  //         ? "rotate(180deg)"
-  //         : "rotate(0deg)";
-  //     }
-  //   });
-  // };
-
   const handleCloseClick = () => {
     setIsClosed((prevIsClosed) => !prevIsClosed);
     setIsRotated((prevIsRotated) => !prevIsRotated);
