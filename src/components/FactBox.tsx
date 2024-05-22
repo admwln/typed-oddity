@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 
-const FactBoxContainer = styled(motion.div)`
+const StyledFactBoxContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -13,7 +13,7 @@ const FactBoxContainer = styled(motion.div)`
   }
 `;
 
-const Heading1 = styled.h1`
+const StyledHeading1 = styled.h1`
   font-size: 52px;
   font-weight: 300;
   line-height: 1.2;
@@ -23,7 +23,7 @@ const Heading1 = styled.h1`
   }
 `;
 
-const Paragraph = styled.p`
+const StyledParagraph = styled.p`
   font-size: 24px;
   line-height: 1.4;
   max-width: 750px;
@@ -33,66 +33,70 @@ const Paragraph = styled.p`
   }
 `;
 
+// Moved this outside of the component to avoid re-creating the function on each render
+const fetchRandomFact = async (): Promise<string> => {
+  try {
+    const response = await fetch(
+      "https://uselessfacts.jsph.pl/random.json?language=en"
+    );
+    const data = await response.json();
+    return data.text;
+  } catch (error) {
+    console.error(error);
+    return "Failed to fetch random fact";
+  }
+};
+
+const fetchDailyFact = async (): Promise<string> => {
+  try {
+    const response = await fetch(
+      "https://uselessfacts.jsph.pl/today.json?language=en"
+    );
+    const data = await response.json();
+    return data.text;
+  } catch (error) {
+    console.error(error);
+    return "Failed to fetch today's fact";
+  }
+};
+///////////////////////////////////////////////////////////////////////
+
 type FactBoxProps = {
   selectedFact: string;
   randomClickCount: number;
 };
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
-  const [randomFact, setRandomFact] = useState(null);
-  const [dailyFact, setDailyFact] = useState(null);
-
-  async function fetchRandomFact() {
-    try {
-      const response = await fetch(
-        "https://uselessfacts.jsph.pl/random.json?language=en"
-      );
-      const data = (await response.json()) as { demo: number };
-      console.log(data);
-      setRandomFact(data.text);
-    } catch {
-      console.log("error");
-    }
-  }
-
-  type RandomFact = {
-    text: string;
-  };
-
-  const fetchDailyFact = async (): Promise<void> => {
-    try {
-      const response = await fetch(
-        "https://uselessfacts.jsph.pl/today.json?language=en"
-      );
-      const data = await response.json();
-      setDailyFact(data.text);
-    } catch {
-      console.log("error");
-    }
-  };
+  const [randomFact, setRandomFact] = useState<string | null>(null);
+  const [dailyFact, setDailyFact] = useState<string | null>(null);
 
   useEffect(() => {
-    if (selectedFact === "random") {
-      fetchRandomFact();
-    } else if (selectedFact === "daily") {
-      fetchDailyFact();
-    }
+    const fetchAndSetDailyFact = async () => {
+      if (selectedFact === "random") {
+        const fetchedRandomFact = await fetchRandomFact();
+        setRandomFact(fetchedRandomFact);
+      } else if (selectedFact === "daily") {
+        const fetchedDailyFact = await fetchDailyFact();
+        setDailyFact(fetchedDailyFact);
+      }
+    };
+    fetchAndSetDailyFact();
   }, [selectedFact, randomClickCount]);
 
   return (
     <>
-      <FactBoxContainer
+      <StyledFactBoxContainer
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <Heading1>
+        <StyledHeading1>
           {selectedFact === "random" ? "Random Fact" : "Daily Fact"}{" "}
-        </Heading1>
-        <Paragraph>
+        </StyledHeading1>
+        <StyledParagraph>
           {selectedFact === "random" ? randomFact : dailyFact}
-        </Paragraph>
-      </FactBoxContainer>
+        </StyledParagraph>
+      </StyledFactBoxContainer>
     </>
   );
 }
