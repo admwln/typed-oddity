@@ -1,23 +1,23 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const HeaderComponent = styled.header`
+const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   margin: 0;
   padding: 0 2rem;
 `;
 
-const Header1 = styled.h1`
+const StyledH1 = styled.h1`
   font-size: 32px;
   font-weight: 400;
 `;
 
-function Header() {
+function Header(): React.ReactElement {
   return (
-    <HeaderComponent>
-      <Header1>Oddity Oasis</Header1>
-    </HeaderComponent>
+    <StyledHeader>
+      <StyledH1>Oddity Oasis</StyledH1>
+    </StyledHeader>
   );
 }
 
