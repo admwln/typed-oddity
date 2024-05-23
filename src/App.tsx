@@ -1,13 +1,9 @@
 import React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
-import FactBox from "./components/FactBox";
 import Header from "./components/Header";
-import Button from "./components/Button";
-import ButtonContainer from "./components/ButtonContainer";
 import BoredBox from "./components/BoredBox";
-import BodyWrapper from "./components/BodyWrapper";
-import GenerateIcon from "../public/assets/generate.svg";
+import { useState } from "react";
+import RenderMainContent from "./components/RenderMainContent";
 
 import "./App.css";
 
@@ -59,40 +55,17 @@ function App() {
     },
   ];
 
-  const renderButtons = () => {
-    return buttons.map((button, index) => (
-      <Button
-        key={index}
-        text={button.text}
-        onClick={button.onClick}
-        className={button.className}
-        icon={
-          button.text === "Random fact" && selectedButton === 0
-            ? GenerateIcon
-            : null
-        }
-      />
-    ));
-  };
-
-  const renderMainContent = () => {
-    return (
-      <BodyWrapper>
-        <ButtonContainer>{renderButtons()}</ButtonContainer>{" "}
-        <FactBox
-          selectedFact={selectedFact}
-          randomClickCount={randomClickCount}
-        />
-      </BodyWrapper>
-    );
-  };
-
   return (
     <>
       <Header />
       <Section>
         <Image src="/assets/images/desert.jpg" alt="desert" />
-        {renderMainContent()}
+        <RenderMainContent
+          selectedFact={selectedFact}
+          randomClickCount={randomClickCount}
+          buttons={buttons}
+          selectedButton={selectedButton}
+        />
       </Section>
       {randomClickCount >= 5 && <BoredBox />}
     </>
