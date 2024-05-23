@@ -21,10 +21,12 @@ type ButtonContainerProps = {
 
 const ButtonContainer: React.FC<ButtonContainerProps> = ({
   children,
-}: ButtonContainerProps) => (
-  <Buttons initial="initial" animate="animate">
-    {children}
-  </Buttons>
-);
+}: ButtonContainerProps) => {
+  return (
+    <Buttons initial="initial" animate="animate">
+      {children}
+    </Buttons>
+  );
+};
 
 export default ButtonContainer;

@@ -23,7 +23,7 @@ const StyledButton = styled(motion.button)`
   }
 `;
 
-const Icon = styled.img`
+const StyledIcon = styled.img`
   margin-left: 8px;
   height: 20px; /* Adjust height as needed */
 `;
@@ -46,7 +46,7 @@ function Button({ text, onClick, className, icon }: ButtonProps) {
       className={className}
     >
       {text}
-      {icon && <Icon src={icon} alt="Icon" />}
+      {icon && <StyledIcon src={icon} alt="Icon" />}
     </StyledButton>
   );
 }
