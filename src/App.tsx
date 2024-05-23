@@ -32,14 +32,19 @@ function App() {
   const [randomClickCount, setRandomClickCount] = useState(0);
   const [selectedButton, setSelectedButton] = useState(1);
 
-  const handleRandomButtonClick = () => {
+  const handleRandomButtonClick = (): void => {
     setSelectedFact("random");
     setRandomClickCount((prevCount) => prevCount + 1);
     setSelectedButton(0);
-    console.log(randomClickCount);
   };
 
-  const buttons = [
+  type ButtonProps = {
+    text: string;
+    onClick: () => void;
+    className: string;
+  };
+
+  const buttons: ButtonProps[] = [
     {
       text: "Today's fact",
       onClick: () => {
