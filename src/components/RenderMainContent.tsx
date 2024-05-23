@@ -4,12 +4,25 @@ import FactBox from "../components/FactBox";
 import ButtonContainer from "../components/ButtonContainer";
 import RenderButtons from "./RenderButtons";
 
+type ButtonProps = {
+  text: string;
+  onClick: () => void;
+  className: string;
+};
+
+type RenderMainContentProps = {
+  selectedFact: string;
+  randomClickCount: number;
+  buttons: ButtonProps[];
+  selectedButton: number;
+};
+
 const RenderMainContent = ({
   selectedFact,
   randomClickCount,
   buttons,
   selectedButton,
-}) => {
+}: RenderMainContentProps): React.ReactElement => {
   return (
     <BodyWrapper>
       <ButtonContainer>
