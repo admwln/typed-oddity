@@ -32,11 +32,10 @@ type ButtonProps = {
   text: string;
   onClick: () => void;
   className?: string;
-  icon?: any;
+  icon: string | null;
 };
 
 function Button({ text, onClick, className, icon }: ButtonProps) {
-  console.log({ text, onClick, className });
   return (
     <StyledButton
       initial={{ opacity: 0 }}

@@ -2,7 +2,19 @@ import React from "react";
 import Button from "../components/Button";
 import GenerateIcon from "../../public/assets/generate.svg";
 
-const RenderButtons = ({ buttons, selectedButton }) => {
+type ButtonProps = {
+  text: string;
+  onClick: () => void;
+  className?: string;
+  icon?: string;
+};
+
+type RenderButtonsProps = {
+  buttons: ButtonProps[];
+  selectedButton: number;
+};
+
+const RenderButtons = ({ buttons, selectedButton }: RenderButtonsProps) => {
   return buttons.map((button, index) => (
     <Button
       key={index}
