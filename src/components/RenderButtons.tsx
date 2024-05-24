@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../components/Button";
-import GenerateIcon from "../../public/assets/generate.svg";
+import GenerateIcon from "/assets/generate.svg";
 
 type ButtonProps = {
   text: string;
