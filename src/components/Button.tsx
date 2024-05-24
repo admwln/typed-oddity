@@ -35,7 +35,9 @@ type ButtonProps = {
   icon?: string | null;
 };
 
-function Button({ text, onClick, className, icon }: ButtonProps) {
+const imageUrl = "/assets/generated.png";
+
+function Button({ text, onClick, className }: ButtonProps) {
   return (
     <StyledButton
       initial={{ opacity: 0 }}
@@ -45,7 +47,9 @@ function Button({ text, onClick, className, icon }: ButtonProps) {
       className={className}
     >
       {text}
-      {icon && <StyledIcon src={icon} alt="Icon" />}
+      {text === "Random fact" && className === "selectedButton" && (
+        <StyledIcon src={imageUrl} alt="Icon" />
+      )}
     </StyledButton>
   );
 }

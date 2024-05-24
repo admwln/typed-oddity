@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "../components/Button";
-import GenerateIcon from "/assets/generate.svg";
 
 type ButtonProps = {
   text: string;
@@ -14,18 +13,13 @@ type RenderButtonsProps = {
   selectedButton: number;
 };
 
-const RenderButtons = ({ buttons, selectedButton }: RenderButtonsProps) => {
+const RenderButtons = ({ buttons }: RenderButtonsProps) => {
   return buttons.map((button, index) => (
     <Button
       key={index}
       text={button.text}
       onClick={button.onClick}
       className={button.className}
-      icon={
-        button.text === "Random fact" && selectedButton === 0
-          ? GenerateIcon
-          : null
-      }
     />
   ));
 };
