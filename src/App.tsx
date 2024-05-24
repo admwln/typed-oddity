@@ -28,9 +28,9 @@ const Image = styled.img`
 `;
 
 function App() {
-  const [selectedFact, setSelectedFact] = useState("daily");
-  const [randomClickCount, setRandomClickCount] = useState(0);
-  const [selectedButton, setSelectedButton] = useState(1);
+  const [selectedFact, setSelectedFact] = useState<"daily" | "random">("daily");
+  const [randomClickCount, setRandomClickCount] = useState<number>(0);
+  const [selectedButton, setSelectedButton] = useState<number>(1);
 
   const handleRandomButtonClick = (): void => {
     setSelectedFact("random");

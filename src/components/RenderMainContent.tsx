@@ -10,8 +10,8 @@ type ButtonProps = {
   className: string;
 };
 
-type RenderMainContentProps = {
-  selectedFact: string;
+export type RenderMainContentProps = {
+  selectedFact: "daily" | "random";
   randomClickCount: number;
   buttons: ButtonProps[];
   selectedButton: number;

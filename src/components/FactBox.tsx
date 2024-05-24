@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
+import { RenderMainContentProps } from "./RenderMainContent";
 
 const StyledFactBoxContainer = styled(motion.div)`
   display: flex;
@@ -61,10 +62,10 @@ const fetchDailyFact = async (): Promise<string> => {
 };
 ///////////////////////////////////////////////////////////////////////
 
-type FactBoxProps = {
-  selectedFact: string;
-  randomClickCount: number;
-};
+type FactBoxProps = Pick<
+  RenderMainContentProps,
+  "selectedFact" | "randomClickCount"
+>;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
   const [randomFact, setRandomFact] = useState<string | null>(null);
