@@ -69,7 +69,7 @@ const CloseButton = styled.img<CloseButtonProps>`
 `;
 
 function BoredBox() {
-  const [activity, setActivity] = useState(null);
+  const [activity, setActivity] = useState<string | null>(null);
   const [selectedType] = useState("");
   const [isClosed, setIsClosed] = useState(false);
   const [isRotated, setIsRotated] = useState(false);
@@ -80,19 +80,21 @@ function BoredBox() {
       if (type) {
         url += `?type=${type}`;
       }
-
       const response = await fetch(url);
       const data = await response.json();
-      setActivity(data.activity);
       return data.activity;
-    } catch {
-      console.log("error");
+    } catch (error) {
+      console.error(error);
       return "Failed to fetch activity";
     }
   };
 
   useEffect(() => {
-    fetchActivity(selectedType);
+    const fetchAndSetActivity = async (type: string) => {
+      const fetchedActivity = await fetchActivity(type);
+      setActivity(fetchedActivity);
+    };
+    fetchAndSetActivity(selectedType);
   }, [selectedType]);
 
   const handleCloseClick = () => {
