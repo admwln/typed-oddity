@@ -74,17 +74,22 @@ type FetchedRecipe<T> = {
 };
 
 type Recipe = {
-  title: string;
-  // add other properties as needed
+  strMeal: string;
+  strInstructions: string;
+  strIngredient1: string;
+  strIngredient2: string;
+  strIngredient3: string;
+  strMeasure1: string;
+  strMeasure2: string;
+  strMeasure3: string;
 };
 
 type RecipeData = {
-  recipes: Recipe[];
+  meals: Recipe[];
 };
 
 function RecipeBox() {
   const [recipe, setRecipe] = useState<Recipe | null | undefined>(null);
-  //   const [selectedType] = useState("");
   const [fetchNew, setFetchNew] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
   const [isRotated, setIsRotated] = useState(false);
@@ -93,10 +98,10 @@ function RecipeBox() {
     FetchedRecipe<T>
   > => {
     try {
-      let url = `https://api.spoonacular.com/recipes/random?apiKey=6b81a240ece84d3aad1ab10683f701c3`;
+      let url = `https://www.themealdb.com/api/json/v1/1/random.php`;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data.recipes[0].title);
+      console.log(data);
       return {
         data: data,
       };
@@ -115,7 +120,7 @@ function RecipeBox() {
       if (typeof fetchedRecipe === "string") {
       } else {
         console.log(fetchedRecipe.data);
-        setRecipe(fetchedRecipe.data?.recipes[0]);
+        setRecipe(fetchedRecipe.data?.meals[0]);
       }
     };
     fetchAndSetRecipe();
@@ -149,32 +154,50 @@ function RecipeBox() {
   const closeButtonRef = React.useRef<HTMLImageElement>(null);
 
   return (
-    <RecipeWrapper
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0, height: isClosed ? "auto" : "auto" }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-    >
-      <BoredContent>
-        <CloseButton
-          ref={closeButtonRef}
-          onClick={handleCloseClick}
-          src="/assets/close.svg"
-          alt="close"
-          isRotated={isRotated}
-        />
-        <Header1 className="content-element">Hmm.. You seem hungry</Header1>
-        <p className="content-element">How about..</p>
-        <ParagraphMedium className="content-element">
-          &#x2728; {recipe?.title} &#x2728;
-        </ParagraphMedium>
-        <ParagraphSmall className="content-element">
-          Generate new activity
-        </ParagraphSmall>
-        <ButtonWrapper className="content-element">
-          <Button text="Another recipe" onClick={() => handleRecipeClick()} />
-        </ButtonWrapper>
-      </BoredContent>
-    </RecipeWrapper>
+    <>
+      <RecipeWrapper
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0, height: isClosed ? "auto" : "auto" }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <BoredContent>
+          <CloseButton
+            ref={closeButtonRef}
+            onClick={handleCloseClick}
+            src="/assets/close.svg"
+            alt="close"
+            isRotated={isRotated}
+          />
+          <Header1 className="content-element">Hmm.. You seem hungry</Header1>
+          <p className="content-element">How about..</p>
+          <ParagraphMedium className="content-element">
+            &#x2728; {recipe?.strMeal} &#x2728;
+          </ParagraphMedium>
+          <h2 className="content-element">Ingredients</h2>
+          <div className="content-element">
+            <ul>
+              <li>
+                {recipe?.strMeasure1} {recipe?.strIngredient1}
+              </li>
+              <li>
+                {recipe?.strMeasure2} {recipe?.strIngredient2}
+              </li>
+              <li>
+                {recipe?.strMeasure3} {recipe?.strIngredient3}
+              </li>
+            </ul>
+          </div>
+
+          <p className="content-element">{recipe?.strInstructions}</p>
+          <ParagraphSmall className="content-element">
+            Generate new activity
+          </ParagraphSmall>
+          <ButtonWrapper className="content-element">
+            <Button text="Another recipe" onClick={() => handleRecipeClick()} />
+          </ButtonWrapper>
+        </BoredContent>
+      </RecipeWrapper>
+    </>
   );
 }
 
