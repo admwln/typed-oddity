@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
 
-type FetchedFact = {
-  data: string | null;
-  error: string;
+export type FetchedFact<T> = {
+  data: T | null;
+  error?: string;
 };
 
-function useFetch(url: string, dependencies: any[] = []): FetchedFact {
-  const [error, setError] = useState<string>("");
-  const [data, setData] = useState<string | null>(null);
+function useFetch<T>(url: string, dependencies: any[] = []): FetchedFact<T> {
+  const [fetchedData, setFetchedData] = useState<FetchedFact<T>>({
+    data: null,
+  });
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        setData(data?.text);
+        setFetchedData({
+          data: data,
+        });
       } catch (error) {
-        setError("Oops, something went wrong!");
+        setFetchedData({
+          data: null,
+          error: "Failed to fetch data",
+        });
       }
     };
 
@@ -26,7 +32,7 @@ function useFetch(url: string, dependencies: any[] = []): FetchedFact {
     return () => {};
   }, [url, ...dependencies]); // Dependency array includes url
 
-  return { data, error };
+  return fetchedData;
 }
 
 export default useFetch;

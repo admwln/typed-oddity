@@ -35,20 +35,38 @@ const StyledParagraph = styled.p`
   }
 `;
 
+type Fact = {
+  text: string;
+};
+
+type FetchedFact = {
+  data: Fact | null;
+  error?: string;
+};
+
 type FactBoxProps = Pick<
   RenderMainContentProps,
   "selectedFact" | "randomClickCount"
 >;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
-  const { data: randomFact } = useFetch(
+  const randomFactResponse: FetchedFact = useFetch(
     "https://uselessfacts.jsph.pl/random.json?language=en",
     [randomClickCount]
   );
 
-  const { data: dailyFact } = useFetch(
+  const dailyFactResponse: FetchedFact = useFetch(
     "https://uselessfacts.jsph.pl/api/v2/facts/today"
   );
+
+  const randomFact = randomFactResponse.data
+    ? randomFactResponse.data.text
+    : "Loading...";
+  const dailyFact = dailyFactResponse.data
+    ? dailyFactResponse.data.text
+    : "Loading...";
+
+  console.log(dailyFact);
 
   return (
     <StyledFactBoxContainer
