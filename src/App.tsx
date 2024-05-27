@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Header from "./components/Header";
-import BoredBox from "./components/BoredBox";
+import RecipeBox from "./components/RecipeBox";
 import { useState } from "react";
 import RenderMainContent from "./components/RenderMainContent";
 
@@ -72,7 +72,7 @@ function App() {
           selectedButton={selectedButton}
         />
       </Section>
-      {randomClickCount >= 5 && <BoredBox />}
+      {randomClickCount >= 5 && <RecipeBox />}
     </>
   );
 }
