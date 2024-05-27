@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import { RenderMainContentProps } from "./RenderMainContent";
+import useFetch from "../hooks/useFetch";
 
 const StyledFactBoxContainer = styled(motion.div)`
   display: flex;
@@ -34,71 +35,39 @@ const StyledParagraph = styled.p`
   }
 `;
 
-// Moved this outside of the component to avoid re-creating the function on each render
-const fetchRandomFact = async (): Promise<string> => {
-  try {
-    const response = await fetch(
-      "https://uselessfacts.jsph.pl/random.json?language=en"
-    );
-    const data = await response.json();
-    return data.text;
-  } catch (error) {
-    console.error(error);
-    return "Failed to fetch random fact";
-  }
-};
-
-const fetchDailyFact = async (): Promise<string> => {
-  try {
-    const response = await fetch(
-      "https://uselessfacts.jsph.pl/today.json?language=en"
-    );
-    const data = await response.json();
-    return data.text;
-  } catch (error) {
-    console.error(error);
-    return "Failed to fetch today's fact";
-  }
-};
-///////////////////////////////////////////////////////////////////////
-
 type FactBoxProps = Pick<
   RenderMainContentProps,
   "selectedFact" | "randomClickCount"
 >;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
-  const [randomFact, setRandomFact] = useState<string | null>(null);
-  const [dailyFact, setDailyFact] = useState<string | null>(null);
+  const {
+    data: randomFact,
+    loading: randomLoading,
+    error: randomError,
+  } = useFetch("https://uselessfacts.jsph.pl/random.json?language=en", [
+    randomClickCount,
+  ]);
 
-  useEffect(() => {
-    const fetchAndSetDailyFact = async () => {
-      if (selectedFact === "random") {
-        const fetchedRandomFact = await fetchRandomFact();
-        setRandomFact(fetchedRandomFact);
-      } else if (selectedFact === "daily") {
-        const fetchedDailyFact = await fetchDailyFact();
-        setDailyFact(fetchedDailyFact);
-      }
-    };
-    fetchAndSetDailyFact();
-  }, [selectedFact, randomClickCount]);
+  const {
+    data: dailyFact,
+    loading: dailyLoading,
+    error: dailyError,
+  } = useFetch("https://uselessfacts.jsph.pl/api/v2/facts/today");
 
   return (
-    <>
-      <StyledFactBoxContainer
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
-        <StyledHeading1>
-          {selectedFact === "random" ? "Random Fact" : "Daily Fact"}{" "}
-        </StyledHeading1>
-        <StyledParagraph>
-          {selectedFact === "random" ? randomFact : dailyFact}
-        </StyledParagraph>
-      </StyledFactBoxContainer>
-    </>
+    <StyledFactBoxContainer
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      <StyledHeading1>
+        {selectedFact === "random" ? "Random Fact" : "Daily Fact"}{" "}
+      </StyledHeading1>
+      <StyledParagraph>
+        {selectedFact === "random" ? randomFact : dailyFact}
+      </StyledParagraph>
+    </StyledFactBoxContainer>
   );
 }
 
