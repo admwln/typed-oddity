@@ -2,26 +2,21 @@ import { useState, useEffect } from "react";
 
 type FetchedFact = {
   data: string | null;
-  loading: boolean;
   error: string;
 };
 
-function useFetch(url: string, dependencies: number[] = []): FetchedFact {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [data, setData] = useState(null);
+function useFetch(url: string, dependencies: any[] = []): FetchedFact {
+  const [error, setError] = useState<string>("");
+  const [data, setData] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+    const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(url);
         const data = await response.json();
         setData(data?.text);
-        setLoading(false);
       } catch (error) {
         setError("Oops, something went wrong!");
-        setLoading(false);
       }
     };
 
@@ -31,7 +26,7 @@ function useFetch(url: string, dependencies: number[] = []): FetchedFact {
     return () => {};
   }, [url, ...dependencies]); // Dependency array includes url
 
-  return { data, loading, error };
+  return { data, error };
 }
 
 export default useFetch;
