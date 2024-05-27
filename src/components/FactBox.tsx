@@ -41,19 +41,14 @@ type FactBoxProps = Pick<
 >;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
-  const {
-    data: randomFact,
-    loading: randomLoading,
-    error: randomError,
-  } = useFetch("https://uselessfacts.jsph.pl/random.json?language=en", [
-    randomClickCount,
-  ]);
+  const { data: randomFact } = useFetch(
+    "https://uselessfacts.jsph.pl/random.json?language=en",
+    [randomClickCount]
+  );
 
-  const {
-    data: dailyFact,
-    loading: dailyLoading,
-    error: dailyError,
-  } = useFetch("https://uselessfacts.jsph.pl/api/v2/facts/today");
+  const { data: dailyFact } = useFetch(
+    "https://uselessfacts.jsph.pl/api/v2/facts/today"
+  );
 
   return (
     <StyledFactBoxContainer
@@ -62,9 +57,10 @@ function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
       transition={{ duration: 0.6, delay: 0.2 }}
     >
       <StyledHeading1>
-        {selectedFact === "random" ? "Random Fact" : "Daily Fact"}{" "}
+        {selectedFact === "random" ? "Random Fact" : "Daily Fact"}
       </StyledHeading1>
       <StyledParagraph>
+        {/* Display random fact if selected, otherwise display daily fact */}
         {selectedFact === "random" ? randomFact : dailyFact}
       </StyledParagraph>
     </StyledFactBoxContainer>
