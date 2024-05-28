@@ -66,8 +66,6 @@ function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
     ? dailyFactResponse.data.text
     : "Loading...";
 
-  console.log(dailyFact);
-
   return (
     <StyledFactBoxContainer
       initial={{ opacity: 0, y: 50 }}
