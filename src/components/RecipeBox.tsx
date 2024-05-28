@@ -170,7 +170,12 @@ function RecipeBox() {
                 </ul>
               </div>
               <p className="content-element">
-                {fetchedRecipe?.strInstructions}
+                {/* If strInstructions i longer than 500 characters, shorten it */}
+                {fetchedRecipe?.strInstructions.length > 500 ? (
+                  <>{fetchedRecipe?.strInstructions.substring(0, 500)}...</>
+                ) : (
+                  <>{fetchedRecipe?.strInstructions}</>
+                )}
               </p>
             </>
           )}

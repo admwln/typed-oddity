@@ -14,7 +14,7 @@ function useFetch<T>(url: string, dependencies: any[] = []): FetchedFact<T> {
     const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(url);
-        const data = await response.json();
+        const data: T = await response.json();
         setFetchedData({
           data: data,
         });
