@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import Button from "./Button";
@@ -153,7 +153,7 @@ function RecipeBox() {
             <>
               <ParagraphMedium className="content-element">
                 {/* Check if type of fetchedRecipe is Recipe */}
-                {fetchedRecipe?.strMeal}
+                &#x2728; {fetchedRecipe?.strMeal} &#x2728;
               </ParagraphMedium>
               <h2 className="content-element">Ingredients</h2>
               <div className="content-element">
