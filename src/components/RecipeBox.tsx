@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import Button from "./Button";
+import useFetch from "../hooks/useFetch";
 
 type CloseButtonProps = {
   isRotated: boolean;
@@ -68,8 +69,12 @@ const CloseButton = styled.img<CloseButtonProps>`
   transition: transform 0.6s ease;
 `;
 
-type FetchedRecipe<T> = {
-  data: T | null;
+type RecipeData = {
+  meals: Recipe[];
+};
+
+type FetchedMeals = {
+  data: RecipeData | null;
   error?: string;
 };
 
@@ -84,47 +89,21 @@ type Recipe = {
   strMeasure3: string;
 };
 
-type RecipeData = {
-  meals: Recipe[];
-};
-
 function RecipeBox() {
-  const [recipe, setRecipe] = useState<Recipe | null | undefined>(null);
-  const [fetchNew, setFetchNew] = useState(false);
-  const [isClosed, setIsClosed] = useState(false);
-  const [isRotated, setIsRotated] = useState(false);
+  const [fetchNew, setFetchNew] = useState<boolean>(false);
+  const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [isRotated, setIsRotated] = useState<boolean>(false);
 
-  const fetchRecipe = async <T extends RecipeData>(): Promise<
-    FetchedRecipe<T>
-  > => {
-    try {
-      let url = `https://www.themealdb.com/api/json/v1/1/random.php`;
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      return {
-        data: data,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        data: null,
-        error: "Failed to fetch recipe",
-      };
-    }
-  };
+  const recipeResponse: FetchedMeals = useFetch(
+    "https://www.themealdb.com/api/json/v1/1/random.php",
+    [fetchNew]
+  );
 
-  useEffect(() => {
-    const fetchAndSetRecipe = async () => {
-      const fetchedRecipe = await fetchRecipe();
-      if (typeof fetchedRecipe === "string") {
-      } else {
-        console.log(fetchedRecipe.data);
-        setRecipe(fetchedRecipe.data?.meals[0]);
-      }
-    };
-    fetchAndSetRecipe();
-  }, [fetchNew]);
+  const fetchedRecipe = recipeResponse?.data
+    ? recipeResponse?.data?.meals[0]
+    : "Loading...";
+
+  console.log("fetched recipe", recipeResponse?.data?.meals[0]);
 
   const handleRecipeClick = () => {
     setFetchNew((prevFetchNew) => !prevFetchNew);
@@ -170,25 +149,31 @@ function RecipeBox() {
           />
           <Header1 className="content-element">Hmm.. You seem hungry</Header1>
           <p className="content-element">How about..</p>
-          <ParagraphMedium className="content-element">
-            &#x2728; {recipe?.strMeal} &#x2728;
-          </ParagraphMedium>
-          <h2 className="content-element">Ingredients</h2>
-          <div className="content-element">
-            <ul>
-              <li>
-                {recipe?.strMeasure1} {recipe?.strIngredient1}
-              </li>
-              <li>
-                {recipe?.strMeasure2} {recipe?.strIngredient2}
-              </li>
-              <li>
-                {recipe?.strMeasure3} {recipe?.strIngredient3}
-              </li>
-            </ul>
-          </div>
-
-          <p className="content-element">{recipe?.strInstructions}</p>
+          {typeof fetchedRecipe !== "string" && (
+            <>
+              <ParagraphMedium className="content-element">
+                {/* Check if type of fetchedRecipe is Recipe */}
+                {fetchedRecipe?.strMeal}
+              </ParagraphMedium>
+              <h2 className="content-element">Ingredients</h2>
+              <div className="content-element">
+                <ul>
+                  <li>
+                    {fetchedRecipe?.strMeasure1} {fetchedRecipe?.strIngredient1}
+                  </li>
+                  <li>
+                    {fetchedRecipe?.strMeasure2} {fetchedRecipe?.strIngredient2}
+                  </li>
+                  <li>
+                    {fetchedRecipe?.strMeasure3} {fetchedRecipe?.strIngredient3}
+                  </li>
+                </ul>
+              </div>
+              <p className="content-element">
+                {fetchedRecipe?.strInstructions}
+              </p>
+            </>
+          )}
           <ParagraphSmall className="content-element">
             Generate new activity
           </ParagraphSmall>
