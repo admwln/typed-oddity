@@ -5,7 +5,10 @@ export type FetchedFact<T> = {
   error?: string;
 };
 
-function useFetch<T>(url: string, dependencies: any[] = []): FetchedFact<T> {
+function useFetch<T>(
+  url: string,
+  dependencies: boolean[] | number[] = []
+): FetchedFact<T> {
   const [fetchedData, setFetchedData] = useState<FetchedFact<T>>({
     data: null,
   });
@@ -30,7 +33,7 @@ function useFetch<T>(url: string, dependencies: any[] = []): FetchedFact<T> {
 
     // Cleanup function to prevent state update on unmount
     return () => {};
-  }, [url, ...dependencies]); // Dependency array includes url
+  }, [...dependencies]); // Dependency array includes url
 
   return fetchedData;
 }
