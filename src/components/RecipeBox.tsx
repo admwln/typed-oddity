@@ -4,10 +4,6 @@ import { motion } from "framer-motion";
 import Button from "./Button";
 import useFetch from "../hooks/useFetch";
 
-type CloseButtonProps = {
-  isRotated: boolean;
-};
-
 const RecipeWrapper = styled(motion.div)`
   position: absolute;
   width: 100vw;
@@ -58,6 +54,10 @@ const ButtonWrapper = styled.div`
   gap: 1rem;
 `;
 
+type CloseButtonProps = {
+  isRotated: boolean;
+};
+
 const CloseButton = styled.img<CloseButtonProps>`
   position: absolute;
   top: 1rem;
@@ -69,13 +69,9 @@ const CloseButton = styled.img<CloseButtonProps>`
   transition: transform 0.6s ease;
 `;
 
+// Here we define the types for the data we expect to receive from the API
 type RecipeData = {
   meals: Recipe[];
-};
-
-type FetchedMeals = {
-  data: RecipeData | null;
-  error?: string;
 };
 
 type Recipe = {
@@ -87,6 +83,12 @@ type Recipe = {
   strMeasure1: string;
   strMeasure2: string;
   strMeasure3: string;
+};
+
+// The FetchedMeals type is used to represent what the useFetch hook returns
+type FetchedMeals = {
+  data: RecipeData | null;
+  error?: string;
 };
 
 function RecipeBox() {
@@ -115,6 +117,7 @@ function RecipeBox() {
 
     const contentElements =
       document.querySelectorAll<HTMLElement>(".content-element");
+    // Must be typed as HTMLElement to access style property
 
     contentElements.forEach((element) => {
       if (element !== closeButtonRef.current) {
@@ -131,6 +134,9 @@ function RecipeBox() {
   };
 
   const closeButtonRef = React.useRef<HTMLImageElement>(null);
+  // The <HTMLImageElement> is a TypeScript type annotation.
+  // It tells TypeScript that the current property of the ref object
+  // will be an HTMLImageElement, namely the CloseButton component.
 
   return (
     <>

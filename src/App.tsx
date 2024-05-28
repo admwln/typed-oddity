@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Header from "./components/Header";
 import RecipeBox from "./components/RecipeBox";
-import { useState } from "react";
-import RenderMainContent from "./components/RenderMainContent";
-
+import Main from "./components/Main";
 import "./App.css";
 
 const Section = styled.div`
@@ -27,8 +25,16 @@ const Image = styled.img`
   }
 `;
 
+//onClick is typed as a function that takes no arguments and returns void
+export type ButtonProps = {
+  text: string;
+  onClick: () => void;
+  className: string;
+};
+
+//App is inferred to return a React.JSX.Element
 function App() {
-  const [selectedFact, setSelectedFact] = useState<"daily" | "random">("daily");
+  const [selectedFact, setSelectedFact] = useState<"daily" | "random">("daily"); //Union type
   const [randomClickCount, setRandomClickCount] = useState<number>(0);
   const [selectedButton, setSelectedButton] = useState<number>(1);
 
@@ -36,12 +42,6 @@ function App() {
     setSelectedFact("random");
     setRandomClickCount((prevCount) => prevCount + 1);
     setSelectedButton(0);
-  };
-
-  type ButtonProps = {
-    text: string;
-    onClick: () => void;
-    className: string;
   };
 
   const buttons: ButtonProps[] = [
@@ -65,7 +65,7 @@ function App() {
       <Header />
       <Section>
         <Image src="/assets/images/desert.jpg" alt="desert" />
-        <RenderMainContent
+        <Main
           selectedFact={selectedFact}
           randomClickCount={randomClickCount}
           buttons={buttons}

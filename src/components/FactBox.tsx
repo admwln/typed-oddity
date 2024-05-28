@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
-import { RenderMainContentProps } from "./RenderMainContent";
+import { MainProps } from "./Main";
 import useFetch from "../hooks/useFetch";
 
 const StyledFactBoxContainer = styled(motion.div)`
@@ -35,19 +35,22 @@ const StyledParagraph = styled.p`
   }
 `;
 
+// The following types represent what we expect to receive from the API
+// In this specific case, we are only interested in the text property of the response
 type Fact = {
   text: string;
 };
 
+// The FetchedFact type is used to represents what the useFetch hook returns
 type FetchedFact = {
   data: Fact | null;
   error?: string;
 };
 
-type FactBoxProps = Pick<
-  RenderMainContentProps,
-  "selectedFact" | "randomClickCount"
->;
+// Here we have used the Pick utility type
+// to create a new type FactBoxProps that only includes the selectedFact and randomClickCount
+// properties from the MainProps type.
+type FactBoxProps = Pick<MainProps, "selectedFact" | "randomClickCount">;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
   const randomFactResponse: FetchedFact = useFetch(

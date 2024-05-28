@@ -16,12 +16,12 @@ const Buttons = styled(motion.div)`
 `;
 
 type ButtonContainerProps = {
-  children: React.ReactNode;
+  children: React.ReactNode; //ReactNode represents all of the things React can render.
 };
+// We opted not to use the React.FC type, as this syntax is more concise
+// and does not require the import of React.
 
-const ButtonContainer: React.FC<ButtonContainerProps> = ({
-  children,
-}: ButtonContainerProps) => {
+const ButtonContainer = ({ children }: ButtonContainerProps) => {
   return (
     <Buttons initial="initial" animate="animate">
       {children}

@@ -13,7 +13,8 @@ const StyledH1 = styled.h1`
   font-weight: 400;
 `;
 
-function Header(): React.ReactElement {
+//Header is inferred to return a React.JSX.Element
+function Header() {
   return (
     <StyledHeader>
       <StyledH1>Oddity Oasis</StyledH1>

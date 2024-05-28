@@ -25,7 +25,7 @@ const StyledButton = styled(motion.button)`
 
 const StyledIcon = styled.img`
   margin-left: 8px;
-  height: 20px; /* Adjust height as needed */
+  height: 20px;
 `;
 
 type ButtonProps = {

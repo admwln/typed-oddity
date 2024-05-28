@@ -1,28 +1,23 @@
 import React from "react";
 import BodyWrapper from "../components/BodyWrapper";
 import FactBox from "../components/FactBox";
+import { ButtonProps } from "../App";
 import ButtonContainer from "../components/ButtonContainer";
 import RenderButtons from "./RenderButtons";
 
-type ButtonProps = {
-  text: string;
-  onClick: () => void;
-  className: string;
-};
-
-export type RenderMainContentProps = {
+export type MainProps = {
   selectedFact: "daily" | "random";
   randomClickCount: number;
   buttons: ButtonProps[];
   selectedButton: number;
 };
 
-const RenderMainContent = ({
+const Main = ({
   selectedFact,
   randomClickCount,
   buttons,
   selectedButton,
-}: RenderMainContentProps): React.ReactElement => {
+}: MainProps) => {
   return (
     <BodyWrapper>
       <ButtonContainer>
@@ -36,4 +31,4 @@ const RenderMainContent = ({
   );
 };
 
-export default RenderMainContent;
+export default Main;
