@@ -85,18 +85,12 @@ type Recipe = {
   strMeasure3: string;
 };
 
-// The FetchedMeals type is used to represent what the useFetch hook returns
-type FetchedMeals = {
-  data: RecipeData | null;
-  error?: string;
-};
-
 function RecipeBox() {
   const [fetchNew, setFetchNew] = useState<boolean>(false);
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [isRotated, setIsRotated] = useState<boolean>(false);
 
-  const recipeResponse: FetchedMeals = useFetch(
+  const recipeResponse = useFetch<RecipeData>(
     "https://www.themealdb.com/api/json/v1/1/random.php",
     [fetchNew]
   );

@@ -41,24 +41,18 @@ type Fact = {
   text: string;
 };
 
-// The FetchedFact type is used to represents what the useFetch hook returns
-type FetchedFact = {
-  data: Fact | null;
-  error?: string;
-};
-
 // Here we have used the Pick utility type
 // to create a new type FactBoxProps that only includes the selectedFact and randomClickCount
 // properties from the MainProps type.
 type FactBoxProps = Pick<MainProps, "selectedFact" | "randomClickCount">;
 
 function FactBox({ selectedFact, randomClickCount }: FactBoxProps) {
-  const randomFactResponse: FetchedFact = useFetch(
+  const randomFactResponse = useFetch<Fact>(
     "https://uselessfacts.jsph.pl/random.json?language=en",
     [randomClickCount]
   );
 
-  const dailyFactResponse: FetchedFact = useFetch(
+  const dailyFactResponse = useFetch<Fact>(
     "https://uselessfacts.jsph.pl/api/v2/facts/today"
   );
 

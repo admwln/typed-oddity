@@ -17,7 +17,7 @@ const StyledH1 = styled.h1`
 function Header() {
   return (
     <StyledHeader>
-      <StyledH1>Oddity Oasis</StyledH1>
+      <StyledH1>Oddity Oasis 2.0</StyledH1>
     </StyledHeader>
   );
 }

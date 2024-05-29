@@ -5,6 +5,7 @@ import { ButtonProps } from "../App";
 import ButtonContainer from "../components/ButtonContainer";
 import RenderButtons from "./RenderButtons";
 
+// The MainProps type is used to represent the props that the Main component receives
 export type MainProps = {
   selectedFact: "daily" | "random";
   randomClickCount: number;
